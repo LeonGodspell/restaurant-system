@@ -13,7 +13,9 @@ public class Complemento {
 	public void criarComplemento(String complemento, int stock){
 	    try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("INSERT Complemento (name, stock) VALUES (?,?);");  
+	        		con.connection.prepareStatement("INSERT INTO Complemento"
+	        				+ " (name, stock)"
+	        				+ " VALUES (?,?);");  
 	        stmt.setString(1,complemento);
 	        stmt.setInt(2, stock);
 	        stmt.execute();
@@ -53,8 +55,8 @@ public class Complemento {
 	    }
 	    con.close();
 	}
-	
-	public Object[] visualizaComplemento(){
+	//Código abaixo só serve para pegar todos os valores
+	/*public Object[] visualizaComplemento(){
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT * FROM Complemento;");  
@@ -72,5 +74,5 @@ public class Complemento {
 	    	return null;
 	    }
 	    
-	}
+	}*/
 }

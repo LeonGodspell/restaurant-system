@@ -3,12 +3,11 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import com.mysql.jdbc.PreparedStatement;
-
 public class QuerySQL{
 	public Connection connection;
 	public QuerySQL(){
-		this.connection = new ConnectionFactory().getConnection();
+		new ConnectionFactory();
+		this.connection = ConnectionFactory.AbrirConexao();
 	}
 	public void close() {
 		// TODO Auto-generated method stub

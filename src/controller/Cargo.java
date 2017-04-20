@@ -14,7 +14,9 @@ public class Cargo{
 	public void criarCargo(String cargo){
 	    try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("INSERT Cargo (cargoName) VALUES (?);");  
+	        		con.connection.prepareStatement("INSERT INTO Cargo"
+	        				+ " (cargoName)"
+	        				+ " VALUES (?);");  
 	        stmt.setString(1,cargo);
 	        stmt.execute();
 	    	stmt.close();
@@ -52,8 +54,8 @@ public class Cargo{
 	    }
 	    con.close();
 	}
-	
-	public Object[] visualizaCargo(){
+	//Código abaixo só serve para pegar todos os valores
+	/*public Object[] visualizaCargo(){
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT * FROM Cargo;");  
@@ -71,5 +73,5 @@ public class Cargo{
 	    	return null;
 	    }
 	    
-	}
+	}*/
 }

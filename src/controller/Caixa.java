@@ -13,7 +13,9 @@ public class Caixa {
 	public void abrirCaixa(float saldoInicial){
 	    try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("INSERT Caixa (saldoInicial, dateInicial) VALUES (?,NOW());");  
+	        		con.connection.prepareStatement("INSERT INTO Caixa "
+	        				+ "(saldoInicial, dateInicial) "
+	        				+ "VALUES (?,NOW());");  
 	        stmt.setFloat(1,saldoInicial);
 	        stmt.execute();
 	    	stmt.close();
@@ -38,7 +40,8 @@ public class Caixa {
 	    }
 	    con.close();
 	}
-	public Object[] visualizaCaixa(){
+	//Código abaixo só serve para pegar todos os valores
+	/*public Object[] visualizaCaixa(){
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT saldoInicial, saldoFinal, lucroFinal, dateInicial, dateFinal"
@@ -58,5 +61,5 @@ public class Caixa {
 	    	return null;
 	    }
 	    
-	}
+	}*/
 }

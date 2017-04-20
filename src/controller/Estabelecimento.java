@@ -10,20 +10,16 @@ import javax.swing.JOptionPane;
 public class Estabelecimento {
 	QuerySQL con = new QuerySQL();
 	private String msg = "Erro na alteração dos valores no Banco de Dados!";
-	public Estabelecimento(){
-		
-	}
-	public void criarDivida(float price, String dateVencimento,
-			int idFornecedor, long danfe){
+	public void criarEstabelecimento(String name, int phone, int cnpj, String adress){
 	    try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("INSERT Dividas"
-	        				+ " (price, dateVencimento, date, idFornecedor,"
-	        				+ " danfe) VALUES (?,?,NOW(),?,?);");  
-	        stmt.setFloat(1,price);
-	        stmt.setString(2, dateVencimento);
-	        stmt.setInt(3, idFornecedor);
-	        stmt.setLong(4, danfe);
+	        		con.connection.prepareStatement("INSERT INTO Estabelecimento"
+	        				+ " (name, phone, cnpj, adress)"
+	        				+ " VALUES (?,?,?,?);");  
+	        stmt.setString(1,name);
+	        stmt.setInt(2, phone);
+	        stmt.setInt(3, cnpj);
+	        stmt.setString(4, adress);
 	        stmt.execute();
 	    	stmt.close();
 	    }catch(Exception e){
@@ -32,29 +28,17 @@ public class Estabelecimento {
 	    }
 	    con.close();
 	}
-	public void editarDivida(float price, String dateVencimento,int idFornecedor, long danfe){
+	//Modifica todos os valores da linha
+	public void editarEstabelecimento(String name, int phone, int cnpj, String adress){
 		try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("UPDATE Complemento SET price = ?, dateVencimento = '?',"
-	        				+ " idFornecedor = ?, danfe = ? WHERE danfe = ?;");  
-	        stmt.setFloat(1,price);
-	        stmt.setString(2, dateVencimento);
-	        stmt.setInt(3, idFornecedor);
-	        stmt.setLong(4, danfe);
-	        stmt.setLong(5, danfe);
-	        stmt.execute();
-	    	stmt.close();
-	    }catch(Exception e){
-	    	JOptionPane.showMessageDialog(null, msg,
-	    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
-	    }
-	    con.close();
-	}
-	public void excluirDivida(long danfe){
-		try {  
-	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("DELETE FROM Divida WHERE danfe = ?;");  
-	        stmt.setLong(1,danfe);
+	        		con.connection.prepareStatement("UPDATE Estabelecimento SET name = '?', phone = ?,"
+	        				+ " cnpj = ?, adress = '?' WHERE name = ?;");  
+	        stmt.setString(1,name);
+	        stmt.setInt(2, phone);
+	        stmt.setInt(3, cnpj);
+	        stmt.setString(4, adress);
+	        stmt.setString(5, name);
 	        stmt.execute();
 	    	stmt.close();
 	    }catch(Exception e){
@@ -64,15 +48,81 @@ public class Estabelecimento {
 	    con.close();
 	}
 	
-	public Object[] visualizaComplemento(){
+	//Método para editar valores específicos
+	public void editarEstabelecimento(String name, int phone, int cnpj, String adress,
+			int[] select, int idEstabelecimento){
+		String sql = "UPDATE Estabelecimento SET ";
+		try {
+			//For para verificar quais variáveis serão modificadas
+			for(int i = 0; i < select.length; i++){
+				if (select != null){
+					if(select[i] == 0){
+						sql += "name = '?' ";
+					}
+					if(select[i] == 1){
+						sql += "phone = ? ";
+					}
+					if(select[i] == 2){
+						sql += "cnpj = ? ";
+					}
+					if(select[i] == 3){
+						sql += "adress = '?' ";
+					}
+				}
+			}
+			sql += "WHERE idEstabelecimento = ?";
+			PreparedStatement stmt = con.connection.prepareStatement(sql);
+			//For para inserir as variáveis(parâmetros) dentro do statement
+			for(int i = 1; i <= select.length; i++){
+				if (select != null){
+					if(select[i] == 1){
+						stmt.setString(i,name);
+					}
+					if(select[i] == 2){
+						stmt.setInt(i,phone);
+					}
+					if(select[i] == 3){
+						stmt.setInt(i,cnpj);
+					}
+					if(select[i] == 4){
+						stmt.setString(i,adress);
+					}
+				}
+			}
+			stmt.setInt(select.length + 1, idEstabelecimento); 
+			//select.lenght + 1 -> Última posição inserida dentro do statement mais 1 
+	        stmt.execute();
+	    	stmt.close();
+	    }catch(Exception e){
+	    	JOptionPane.showMessageDialog(null, msg,
+	    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
+	    }
+	    con.close();
+	}
+	
+	public void excluirEstabelecimento(String name){
 		try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("SELECT * FROM Divida;");  
+	        		con.connection.prepareStatement("DELETE FROM Estabelecimento WHERE name = ?;");  
+	        stmt.setString(1,name);
+	        stmt.execute();
+	    	stmt.close();
+	    }catch(Exception e){
+	    	JOptionPane.showMessageDialog(null, msg,
+	    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
+	    }
+	    con.close();
+	}
+	
+	public Object[] visualizaEstabelecimento(){
+		try {  
+	        PreparedStatement stmt = 
+	        		con.connection.prepareStatement("SELECT * FROM Estabelecimento;");  
 	        ResultSet result = stmt.executeQuery();
 	        List <String[]> lista = new ArrayList<String[]>();
 	        while( result.next() ){
 	            lista.add( new String[]{ result.getString(1) , result.getString(2), result.getString(3),
-	            		result.getString(4), result.getString(5), result.getString(6) } );
+	            		result.getString(4) } );
 	        }
 	        Object[] Arraylista = lista.toArray();
 	    	stmt.close();

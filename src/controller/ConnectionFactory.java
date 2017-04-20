@@ -2,9 +2,6 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 
 public class ConnectionFactory {
@@ -23,12 +20,6 @@ public class ConnectionFactory {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Erro na conexão com o Banco de Dados!","Petiscaria", JOptionPane.ERROR_MESSAGE);
 			e.getMessage();
-		}
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return con;
 		

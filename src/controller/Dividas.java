@@ -14,7 +14,7 @@ public class Dividas {
 			int idFornecedor, long danfe){
 	    try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("INSERT Dividas"
+	        		con.connection.prepareStatement("INSERT INTO Dividas"
 	        				+ " (price, dateVencimento, date, idFornecedor,"
 	        				+ " danfe) VALUES (?,?,NOW(),?,?);");  
 	        stmt.setFloat(1,price);
@@ -29,6 +29,7 @@ public class Dividas {
 	    }
 	    con.close();
 	}
+	//Modifica todos os valores da linha
 	public void editarDivida(float price, String dateVencimento,int idFornecedor, long danfe){
 		try {  
 	        PreparedStatement stmt = 
@@ -47,6 +48,57 @@ public class Dividas {
 	    }
 	    con.close();
 	}
+	//Método para editar valores específicos
+		public void editarDivida(float price, String dateVencimento,int idFornecedor, long danfe,
+				int[] select, int idEstabelecimento){
+			String sql = "UPDATE Estabelecimento SET ";
+			try {
+				//For para verificar quais variáveis serão modificadas
+				for(int i = 0; i < select.length; i++){
+					if (select != null){
+						if(select[i] == 0){
+							sql += "name = '?' ";
+						}
+						if(select[i] == 1){
+							sql += "phone = ? ";
+						}
+						if(select[i] == 2){
+							sql += "cnpj = ? ";
+						}
+						if(select[i] == 3){
+							sql += "adress = '?' ";
+						}
+					}
+				}
+				sql += "WHERE idEstabelecimento = ?";
+				PreparedStatement stmt = con.connection.prepareStatement(sql);
+				//For para inserir as variáveis(parâmetros) dentro do statement
+				for(int i = 1; i <= select.length; i++){
+					if (select != null){
+						if(select[i] == 1){
+							stmt.setString(i,name);
+						}
+						if(select[i] == 2){
+							stmt.setInt(i,phone);
+						}
+						if(select[i] == 3){
+							stmt.setInt(i,cnpj);
+						}
+						if(select[i] == 4){
+							stmt.setString(i,adress);
+						}
+					}
+				}
+				stmt.setInt(select.length + 1, idEstabelecimento); 
+				//select.lenght + 1 -> Última posição inserida dentro do statement mais 1 
+		        stmt.execute();
+		    	stmt.close();
+		    }catch(Exception e){
+		    	JOptionPane.showMessageDialog(null, msg,
+		    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
+		    }
+		    con.close();
+		}
 	public void excluirDivida(long danfe){
 		try {  
 	        PreparedStatement stmt = 
@@ -60,8 +112,8 @@ public class Dividas {
 	    }
 	    con.close();
 	}
-	
-	public Object[] visualizaComplemento(){
+	//Código abaixo só serve para pegar todos os valores
+	/*public Object[] visualizaDivida(){
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT * FROM Divida;");  
@@ -80,5 +132,5 @@ public class Dividas {
 	    	return null;
 	    }
 	    
-	}
+	}*/
 }
