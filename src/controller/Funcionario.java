@@ -7,17 +7,20 @@ import javax.swing.JOptionPane;
 public class Funcionario {
 	QuerySQL con = new QuerySQL();
 	private String msg = "Erro na alteração dos valores no Banco de Dados!";
-	public void criarDivida(float price, String dateVencimento,
-			int idFornecedor, long danfe){
+	public void cadastrarFuncionario(String name, int cpf,
+			int rg, String dateNasc, int phone, int idCargo, String adress){
 	    try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("INSERT INTO Dividas"
 	        				+ " (price, dateVencimento, date, idFornecedor,"
 	        				+ " danfe) VALUES (?,?,NOW(),?,?);");  
-	        stmt.setFloat(1,price);
-	        stmt.setString(2, dateVencimento);
-	        stmt.setInt(3, idFornecedor);
-	        stmt.setLong(4, danfe);
+	        stmt.setString(1, name);
+	        stmt.setInt(2, cpf);
+	        stmt.setInt(3, rg);
+	        stmt.setString(4, dateNasc);
+	        stmt.setInt(5, phone);
+	        stmt.setInt(6, idCargo);
+	        stmt.setString(7, adress);
 	        stmt.execute();
 	    	stmt.close();
 	    }catch(Exception e){
@@ -26,16 +29,19 @@ public class Funcionario {
 	    }
 	    con.close();
 	}
-	public void editarDivida(float price, String dateVencimento,int idFornecedor, long danfe){
+	public void editarFuncionario(String name, int cpf,
+			int rg, String dateNasc, int phone, int idCargo, String adress, int idFuncionario){
 		try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("UPDATE Complemento SET price = ?, dateVencimento = '?',"
-	        				+ " idFornecedor = ?, danfe = ? WHERE danfe = ?;");  
-	        stmt.setFloat(1,price);
-	        stmt.setString(2, dateVencimento);
-	        stmt.setInt(3, idFornecedor);
-	        stmt.setLong(4, danfe);
-	        stmt.setLong(5, danfe);
+	        		con.connection.prepareStatement("UPDATE Complemento SET name = ?, cpf = '?',"
+	        				+ " rg = ?, dateNasc = ?, phone = ?, idCargo = ?, adress = ? WHERE idFuncionario = ?;");  
+	        stmt.setString(1, name);
+	        stmt.setInt(2, cpf);
+	        stmt.setInt(3, rg);
+	        stmt.setString(4, dateNasc);
+	        stmt.setInt(5, phone);
+	        stmt.setInt(6, idCargo);
+	        stmt.setString(7, adress);
 	        stmt.execute();
 	    	stmt.close();
 	    }catch(Exception e){
@@ -44,11 +50,11 @@ public class Funcionario {
 	    }
 	    con.close();
 	}
-	public void excluirDivida(long danfe){
+	public void excluirFuncionario(int idFuncionario){
 		try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("DELETE FROM Divida WHERE danfe = ?;");  
-	        stmt.setLong(1,danfe);
+	        		con.connection.prepareStatement("DELETE FROM Divida WHERE idFuncionario = ?;");  
+	        stmt.setLong(1, idFuncionario);
 	        stmt.execute();
 	    	stmt.close();
 	    }catch(Exception e){
@@ -58,15 +64,16 @@ public class Funcionario {
 	    con.close();
 	}
 	//Código abaixo só serve para pegar todos os valores
-	/*public Object[] visualizaDivida(){
+	public Object[] visualizaFuncionario(){
 		try {  
 	        PreparedStatement stmt = 
-	        		con.connection.prepareStatement("SELECT * FROM Divida;");  
+	        		con.connection.prepareStatement("SELECT * FROM Funcionario;");  
 	        ResultSet result = stmt.executeQuery();
 	        List <String[]> lista = new ArrayList<String[]>();
 	        while( result.next() ){
 	            lista.add( new String[]{ result.getString(1) , result.getString(2), result.getString(3),
-	            		result.getString(4), result.getString(5), result.getString(6) } );
+	            		result.getString(4), result.getString(5), result.getString(6), result.getString(7)
+	            		, result.getString(8)} );
 	        }
 	        Object[] Arraylista = lista.toArray();
 	    	stmt.close();
@@ -77,5 +84,5 @@ public class Funcionario {
 	    	return null;
 	    }
 	    
-	}*/
+	}
 }

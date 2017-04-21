@@ -41,7 +41,7 @@ public class Caixa {
 	    con.close();
 	}
 	//Código abaixo só serve para pegar todos os valores
-	/*public Object[] visualizaCaixa(){
+	public Object[] visualizaCaixa(){
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT saldoInicial, saldoFinal, lucroFinal, dateInicial, dateFinal"
@@ -61,5 +61,26 @@ public class Caixa {
 	    	return null;
 	    }
 	    
-	}*/
+	}
+	public Object[] visualizaCaixa(String select){
+		try {  
+	        PreparedStatement stmt = 
+	        		con.connection.prepareStatement("SELECT " 
+	        				+ select
+	        				+ " FROM Caixa ORDER BY idCaixa DESC LIMIT 1");  
+	        ResultSet result = stmt.executeQuery();
+	        List <String[]> lista = new ArrayList<String[]>();
+	        while( result.next() ){
+	            lista.add( new String[]{ result.getString(1) } );
+	        }
+	        Object[] Arraylista = lista.toArray();
+	    	stmt.close();
+	    	return Arraylista;
+	    }catch(Exception e){
+	    	JOptionPane.showMessageDialog(null, msg,
+	    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
+	    	return null;
+	    }
+	    
+	}
 }
