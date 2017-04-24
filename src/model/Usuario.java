@@ -6,21 +6,54 @@ public class Usuario {
 	private String password;
 	private int idFuncionario;
 	
-	public Usuario(int idUsuario, String username, String password, int idFuncionario){
+	public Usuario(String username, String password){
 		this.idUsuario = idUsuario;
 		this.username = username;
 		this.password = password;
-		this.idFuncionario = idFuncionario;
+		try {  
+	        PreparedStatement stmt = 
+	        		con.connection.prepareStatement("INSERT INTO Usuario "
+	        				+ "(username, password) "
+	        				+ "VALUES (?, ?);");  
+	        stmt.setString(1, username);
+			stmt.setString(2, password);
+	        stmt.execute();
+	    	stmt.close();
+	    }catch(Exception e){
+	    	JOptionPane.showMessageDialog(null, msg,
+	    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
+	    }
 	}
 	public int getIdUsuario() {
 		return idUsuario;
 	}
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+
 	public String getUsername() {
 		return username;
 	}
+	
+	public float getUsername(int idCaixa) {
+		try {  
+	        PreparedStatement stmt = 
+	        		con.connection.prepareStatement("SELECT saldoInicial"
+	        				+ " FROM Caixa WHICH idCaixa = "
+							+ idCaixa
+							+ "ORDER BY idCaixa DESC");  
+	        ResultSet result = stmt.executeQuery();
+	        List <String[]> lista = new ArrayList<String[]>();
+	        while( result.next() ){
+	            lista.add( new String[]{ result.getString(1) } );
+			}
+	        Object[] Arraylista = lista.toArray();
+	    	stmt.close();
+	    	return Float.parseFloat(Arraylista[0]);
+	    }catch(Exception e){
+	    	JOptionPane.showMessageDialog(null, msg,
+	    			"Petiscaria", JOptionPane.ERROR_MESSAGE);
+	    	return null;
+	    }
+	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
