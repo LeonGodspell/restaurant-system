@@ -50,6 +50,10 @@ public class Caixa {
 	    con.close();
 		this.saldoInicial = saldoInicial;	
 	}
+
+	public Caixa(){
+		
+	}
 	
 	public Caixa(int idCaixa, float saldoInicial, float saldoFinal,	String dateInicial,
 			String dateFinal){
@@ -114,7 +118,7 @@ public class Caixa {
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT saldoInicial"
-	        				+ " FROM Caixa WHICH idCaixa = "
+	        				+ " FROM Caixa WHERE idCaixa = "
 							+ idCaixa
 							+ "ORDER BY idCaixa DESC");  
 	        ResultSet result = stmt.executeQuery();
@@ -155,7 +159,7 @@ public class Caixa {
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT saldoFinal"
-	        				+ " FROM Caixa WHICH idCaixa = "
+	        				+ " FROM Caixa WHERE idCaixa = "
 							+ idCaixa
 							+ "ORDER BY idCaixa DESC");  
 	        ResultSet result = stmt.executeQuery();
@@ -182,7 +186,7 @@ public class Caixa {
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT dateInicial"
-	        				+ " FROM Caixa WHICH idCaixa = "
+	        				+ " FROM Caixa WHERE idCaixa = "
 							+ idCaixa
 							+ "ORDER BY idCaixa DESC");  
 	        ResultSet result = stmt.executeQuery();
@@ -223,7 +227,7 @@ public class Caixa {
 		try {  
 	        PreparedStatement stmt = 
 	        		con.connection.prepareStatement("SELECT dateFinal"
-	        				+ " FROM Caixa WHICH idCaixa = "
+	        				+ " FROM Caixa WHERE idCaixa = "
 							+ idCaixa
 							+ "ORDER BY idCaixa DESC");  
 	        ResultSet result = stmt.executeQuery();
